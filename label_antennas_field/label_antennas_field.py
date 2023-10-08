@@ -9,43 +9,22 @@ import numpy as np
 
 class LabelAntennasField(QtWidgets.QLabel):
 
-    def __init__(self):
+    def __init__(self,
+                 cells_width, cells_height,
+                 maximum_radius_value_x=1, maximum_radius_value_y=1):
         super().__init__()
-
-        self.data_and_parameters = OptionsAntennasField()
-
-        self.last_x, self.last_y = None, None
-        self.pen_color = QtGui.QColor('#000000')
+        # Параметры поля с антеннами и данные о нахождении антенн
+        self.data_and_parameters = OptionsAntennasField(
+            cells_width, cells_height,
+            maximum_radius_value_x, maximum_radius_value_y)
 
         # Координаты сетки
         self.coordinates_grids_x = np.array([])
         self.coordinates_grids_y = np.array([])
 
+    # При изменении размера элемента - перерисовка
     def resizeEvent(self, event):
         self.my_paint()
-
-    def mouseMoveEvent(self, e):
-        if self.last_x is None:  # First event.
-            self.last_x = e.x()
-            self.last_y = e.y()
-            return  # Ignore the first time.
-
-        painter = QtGui.QPainter(self.pixmap())
-        p = painter.pen()
-        p.setWidth(4)
-        p.setColor(self.pen_color)
-        painter.setPen(p)
-        painter.drawLine(self.last_x, self.last_y, e.x(), e.y())
-        painter.end()
-        self.update()
-
-        # Update the origin for next time.
-        self.last_x = e.x()
-        self.last_y = e.y()
-
-    def mouseReleaseEvent(self, e):
-        self.last_x = None
-        self.last_y = None
 
     # Обработка нажатия клавиши - Отмечаем ячейку в которую попали
     def mousePressEvent(self, event):

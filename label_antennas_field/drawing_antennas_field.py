@@ -131,4 +131,3 @@ class DrawingAntennasField:
                 if data_and_parameters.field[j][i]:
                     painter.drawRect(QtCore.QRect(coordinates_grids_x[i], coordinates_grids_y[j],
                                                   cell_width, cell_height))
-        print(data_and_parameters.field)

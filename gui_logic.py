@@ -14,6 +14,9 @@ class GuiProgram(Ui_Dialog):
         Ui_Dialog.__init__(self)
         self.setupUi(dialog)  # Устанавливаем пользовательский интерфейс
 
-        self.label_field_antennas = LabelAntennasField()
+        self.label_field_antennas = LabelAntennasField(
+            cells_width=10, cells_height=10,
+            maximum_radius_value_x=1, maximum_radius_value_y=1
+        )
         self.plotLayout.addWidget(self.label_field_antennas)
 
