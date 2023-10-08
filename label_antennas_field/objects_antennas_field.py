@@ -9,10 +9,6 @@ class ObjectsAntennasField:
         self.maximum_radius_value_x = 40
         self.maximum_radius_value_y = 80
 
-        # Координаты сетки
-        self.coordinates_x = np.array([])
-        self.coordinates_y = np.array([])
-
         # Объекты для рисования
         self.pixmap = pixmap
         self.painter = painter

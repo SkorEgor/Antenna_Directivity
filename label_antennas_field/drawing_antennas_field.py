@@ -35,24 +35,29 @@ class DrawingAntennasField:
         bottom_border = int(draw.pixmap.height() - DrawingAntennasField.padding_y)
 
         # Для вертикальных линий - координаты по x
-        draw.coordinates_x = np.arange((draw.cells_width + 1), dtype="float16")
-        draw.coordinates_x = (DrawingAntennasField.padding_x + draw.coordinates_x * step_width).astype("uint16")
+        coordinates_x = np.arange((draw.cells_width + 1), dtype="float16")
+        coordinates_x = (DrawingAntennasField.padding_x + coordinates_x * step_width).astype("uint16")
         # Для горизонтальных линий - координаты по x
-        draw.coordinates_y = np.arange((draw.cells_height + 1), dtype="float16")
-        draw.coordinates_y = (DrawingAntennasField.padding_y + draw.coordinates_y * step_height).astype("uint16")
+        coordinates_y = np.arange((draw.cells_height + 1), dtype="float16")
+        coordinates_y = (DrawingAntennasField.padding_y + coordinates_y * step_height).astype("uint16")
 
         # Отрисовка линий
         # Вертикальные - смещены по x
-        for x_i in draw.coordinates_x:
+        for x_i in coordinates_x:
             draw.painter.drawLine(x_i, top_border, x_i, bottom_border)
         # Горизонтальные - смещены по y
-        for y_i in draw.coordinates_y:
+        for y_i in coordinates_y:
             draw.painter.drawLine(left_border, y_i, right_border, y_i)
+
+        return coordinates_x, coordinates_y
 
     # Подпись делений осей сетки в pixmap
     # cells_width, cells_height - количество ячеек вдоль оси. Должны быть четными!!!
     @staticmethod
-    def drawing_axis_labels(draw: ObjectsAntennasField):
+    def drawing_axis_labels(
+            draw: ObjectsAntennasField,
+            coordinates_grids_x, coordinates_grids_y
+    ):
         # Количество делений в одном направлении
         calibration_x = draw.cells_width // 2
         calibration_y = draw.cells_height // 2
@@ -81,7 +86,7 @@ class DrawingAntennasField:
         # Находим ширину текста и на это значение смещаем все подписи по x
         metrics = QtGui.QFontMetrics(DrawingAntennasField.font_text)
         text_width = metrics.boundingRect(f' {val_calibration_y[-1]: .1f}').width()
-        coordinates_x = draw.coordinates_x - text_width // 2
+        coordinates_x = coordinates_grids_x - text_width // 2
 
         # Подписываем значения делений осй
         # Для оси y
@@ -90,10 +95,12 @@ class DrawingAntennasField:
             if line_i == draw.cells_height // 2:
                 continue
             # Подпись значений
-            draw.painter.drawText(center_x, draw.coordinates_y[line_i],
+            draw.painter.drawText(center_x, coordinates_grids_y[line_i],
                                   f' {val_calibration_y[line_i]: .1f}')
         # Для оси x
         for column_i in range(draw.cells_width + 1):
             # Подпись значений
             draw.painter.drawText(coordinates_x[column_i], center_y,
                                   f' {val_calibration_x[column_i]: .1f}')
+
+
