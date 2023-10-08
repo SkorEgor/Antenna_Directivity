@@ -21,3 +21,5 @@ class GuiProgram(Ui_Dialog):
 
 
         self.last_x, self.last_y = None, None
+
+        self.pushButton.clicked.connect(self.canvas.my_paint)

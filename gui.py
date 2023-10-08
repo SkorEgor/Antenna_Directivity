@@ -37,6 +37,9 @@ class Ui_Dialog(object):
         self.label.setText("")
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
+        self.pushButton = QtWidgets.QPushButton(Dialog)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout.addWidget(self.pushButton)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -44,3 +47,4 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.pushButton.setText(_translate("Dialog", "PushButton"))
